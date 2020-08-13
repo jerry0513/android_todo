@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_todo.R
 import com.example.android_todo.databinding.FragmentTodoListBinding
@@ -30,7 +31,10 @@ class TodoListFragment : Fragment(), Injectable {
 
         with(binding.todoList) {
             layoutManager = LinearLayoutManager(context)
-            adapter = TodoListAdapter()
+            adapter = TodoListAdapter { todo ->
+                val action = TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(todo.id)
+                findNavController().navigate(action)
+            }
         }
 
         (binding.todoList.adapter as TodoListAdapter).data = viewModel.getTodoList()

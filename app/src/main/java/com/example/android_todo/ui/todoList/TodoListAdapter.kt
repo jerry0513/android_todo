@@ -8,27 +8,31 @@ import com.example.android_todo.R
 import com.example.android_todo.data.Todo
 import com.example.android_todo.databinding.ListItemTodoBinding
 
-class TodoListAdapter : RecyclerView.Adapter<TodoListViewHolder>() {
+class TodoListAdapter(private val onItemClickListener: (Todo) -> Unit) :
+    RecyclerView.Adapter<TodoListViewHolder>() {
 
     var data = listOf<Todo>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
-        return TodoListViewHolder.create(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder =
+        TodoListViewHolder.create(parent)
 
     override fun getItemCount(): Int = data.size
 
-    override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
-        holder.bind(data[position])
-    }
+    override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) =
+        holder.bind(data[position], onItemClickListener)
 }
 
 class TodoListViewHolder(private val binding: ListItemTodoBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Todo) {
-        binding.todo = item
-        binding.executePendingBindings()
+    fun bind(item: Todo, onItemClickListener: (Todo) -> Unit) {
+        with(binding) {
+            todo = item
+            root.setOnClickListener {
+                onItemClickListener.invoke(item)
+            }
+            executePendingBindings()
+        }
     }
 
     companion object {

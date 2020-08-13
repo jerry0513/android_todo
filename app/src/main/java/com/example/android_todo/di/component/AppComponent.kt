@@ -2,7 +2,7 @@ package com.example.android_todo.di.component
 
 import com.example.android_todo.App
 import com.example.android_todo.di.module.ActivityBuilderModule
-import com.example.android_todo.di.module.SourceModule
+import com.example.android_todo.di.module.DataSourceModule
 import com.example.android_todo.di.module.UseCaseModule
 import com.example.android_todo.di.module.ViewModelModule
 import dagger.BindsInstance
@@ -16,7 +16,7 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         ActivityBuilderModule::class,
         ViewModelModule::class,
-        SourceModule::class,
+        DataSourceModule::class,
         UseCaseModule::class
     ]
 )

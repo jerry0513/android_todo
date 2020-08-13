@@ -1,5 +1,6 @@
 package com.example.android_todo.di.module
 
+import com.example.android_todo.ui.todoDetail.TodoDetailFragment
 import com.example.android_todo.ui.todoList.TodoListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -8,5 +9,8 @@ import dagger.android.ContributesAndroidInjector
 interface FragmentBuilderModule {
 
     @ContributesAndroidInjector
-    fun todoListFragment(): TodoListFragment
+    fun contributeTodoListFragment(): TodoListFragment
+
+    @ContributesAndroidInjector
+    fun contributeTodoDetailFragment(): TodoDetailFragment
 }
