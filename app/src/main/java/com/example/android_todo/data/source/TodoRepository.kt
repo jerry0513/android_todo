@@ -4,7 +4,7 @@ import com.example.android_todo.data.Todo
 import java.util.*
 import javax.inject.Inject
 
-class TodoRepository @Inject constructor() : Repository {
+class TodoRepository @Inject constructor() : BaseRepository() {
 
     private val data = listOf(
         Todo(0, "Hello", "Hello world", Date().time),
@@ -22,5 +22,3 @@ class TodoRepository @Inject constructor() : Repository {
         }
     }
 }
-
-interface Repository

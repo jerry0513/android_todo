@@ -7,5 +7,5 @@ import javax.inject.Inject
 class TodoDetailViewModel @Inject constructor(private val getTodoDetailUseCase: GetTodoDetailUseCase) :
     ViewModel() {
 
-    fun getTodoDetail(id: Int) = getTodoDetailUseCase.invoke(id)
+    fun getTodoDetail(id: Int) = getTodoDetailUseCase(id)
 }

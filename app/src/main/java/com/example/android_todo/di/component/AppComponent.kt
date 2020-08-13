@@ -21,6 +21,7 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent {
+
     @Component.Builder
     interface Builder {
         @BindsInstance
