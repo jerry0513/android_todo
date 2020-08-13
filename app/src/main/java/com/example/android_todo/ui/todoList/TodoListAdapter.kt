@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_todo.R
-import com.example.android_todo.data.Todo
+import com.example.android_todo.data.TodoEntity
 import com.example.android_todo.databinding.ListItemTodoBinding
 
-class TodoListAdapter(private val onItemClickListener: (Todo) -> Unit) :
+class TodoListAdapter(private val onItemClickListener: (TodoEntity) -> Unit) :
     RecyclerView.Adapter<TodoListViewHolder>() {
 
-    var data = listOf<Todo>()
+    var data = listOf<TodoEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder =
         TodoListViewHolder.create(parent)
@@ -25,7 +25,7 @@ class TodoListAdapter(private val onItemClickListener: (Todo) -> Unit) :
 class TodoListViewHolder(private val binding: ListItemTodoBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: Todo, onItemClickListener: (Todo) -> Unit) {
+    fun bind(item: TodoEntity, onItemClickListener: (TodoEntity) -> Unit) {
         with(binding) {
             todo = item
             root.setOnClickListener {

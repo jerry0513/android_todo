@@ -14,8 +14,8 @@
             android:id="@+id/action_todoListFragment_to_todoDetailFragment"
             app:destination="@id/todoDetailFragment" >
             <argument
-                android:name="todoId"
-                app:argType="integer" />
+                android:name="todo"
+                app:argType="com.example.android_todo.data.TodoEntity" />
         </action>
     </fragment>
     <fragment
@@ -24,7 +24,7 @@
         android:label="TodoDetailFragment"
         tools:layout="@layout/fragment_todo_detail">
         <argument
-            android:name="todoId"
-            app:argType="integer" />
+            android:name="todo"
+            app:argType="com.example.android_todo.data.TodoEntity" />
     </fragment>
 </navigation>

@@ -6,7 +6,7 @@
 
         <variable
             name="todo"
-            type="com.example.android_todo.data.Todo" />
+            type="com.example.android_todo.data.TodoEntity" />
     </data>
 
     <androidx.cardview.widget.CardView

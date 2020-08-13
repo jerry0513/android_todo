@@ -1,22 +1,22 @@
 package com.example.android_todo.data.source
 
-import com.example.android_todo.data.Todo
+import com.example.android_todo.data.TodoEntity
 import java.util.*
 import javax.inject.Inject
 
 class TodoRepository @Inject constructor() : BaseRepository() {
 
     private val data = listOf(
-        Todo(0, "Hello", "Hello world", Date().time),
-        Todo(1, "Hi", "Hi hi hi", Date().time),
-        Todo(2, "I'm tired", "gonna sleep", Date().time)
+        TodoEntity(0, "Hello", "Hello world", Date().time),
+        TodoEntity(1, "Hi", "Hi hi hi", Date().time),
+        TodoEntity(2, "I'm tired", "gonna sleep", Date().time)
     )
 
-    fun fetchTodoList(): List<Todo> {
+    fun fetchTodoList(): List<TodoEntity> {
         return data
     }
 
-    fun fetchTodo(id: Int): Todo {
+    fun fetchTodo(id: Int): TodoEntity {
         return data.first { todo ->
             todo.id == id
         }

@@ -32,7 +32,7 @@ class TodoListFragment : Fragment(), Injectable {
         with(binding.todoList) {
             layoutManager = LinearLayoutManager(context)
             adapter = TodoListAdapter { todo ->
-                val action = TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(todo.id)
+                val action = TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(todo)
                 findNavController().navigate(action)
             }
         }

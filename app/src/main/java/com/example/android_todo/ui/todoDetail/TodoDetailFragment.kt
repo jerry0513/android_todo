@@ -32,7 +32,7 @@ class TodoDetailFragment : Fragment(), Injectable {
             false
         )
 
-        binding.todo = viewModel.getTodoDetail(args.todoId)
+        binding.todo = args.todo
 
         return binding.root
     }
