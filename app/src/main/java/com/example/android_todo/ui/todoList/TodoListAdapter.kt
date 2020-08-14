@@ -12,6 +12,10 @@ class TodoListAdapter(private val onItemClickListener: (TodoEntity) -> Unit) :
     RecyclerView.Adapter<TodoListViewHolder>() {
 
     var data = listOf<TodoEntity>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder =
         TodoListViewHolder.create(parent)

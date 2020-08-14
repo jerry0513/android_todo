@@ -29,5 +29,5 @@ class DataSourceModule {
 
     @Singleton
     @Provides
-    fun provideTodoRepository(): BaseRepository = TodoRepository()
+    fun provideTodoRepository(todoDao: TodoDao): BaseRepository = TodoRepository(todoDao)
 }

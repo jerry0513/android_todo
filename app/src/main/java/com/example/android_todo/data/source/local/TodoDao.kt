@@ -5,12 +5,16 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.android_todo.data.TodoEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
 
     @Query("SELECT * FROM ${TodoEntity.TABLE_NAME}")
-    fun getAll(): List<TodoEntity>
+    fun getAll(): Flow<List<TodoEntity>>
+
+    @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} WHERE id = :id")
+    fun get(id: Int): TodoEntity
 
     @Insert
     fun insert(todoEntity: TodoEntity)

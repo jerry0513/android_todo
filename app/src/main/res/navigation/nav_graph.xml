@@ -17,6 +17,9 @@
                 android:name="todo"
                 app:argType="com.example.android_todo.data.TodoEntity" />
         </action>
+        <action
+            android:id="@+id/action_todoListFragment_to_todoEditFragment"
+            app:destination="@id/todoEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/todoDetailFragment"
@@ -26,5 +29,13 @@
         <argument
             android:name="todo"
             app:argType="com.example.android_todo.data.TodoEntity" />
+        <action
+            android:id="@+id/action_todoDetailFragment_to_todoEditFragment"
+            app:destination="@id/todoEditFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/todoEditFragment"
+        android:name="com.example.android_todo.ui.todoEdit.TodoEditFragment"
+        android:label="TodoEditFragment"
+        tools:layout="@layout/fragment_todo_edit"/>
 </navigation>

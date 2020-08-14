@@ -10,10 +10,10 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = TABLE_NAME)
 data class TodoEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int?,
-    val title: String,
-    val description: String?,
-    val eventTime: Long
+    val id: Int? = null,
+    var title: String,
+    var description: String? = null,
+    var eventTime: Long? = null
 ) : Parcelable {
     companion object {
         const val TABLE_NAME = "todo_entity"

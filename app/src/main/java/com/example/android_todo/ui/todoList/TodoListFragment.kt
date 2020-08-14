@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_todo.R
+import com.example.android_todo.data.Result
 import com.example.android_todo.databinding.FragmentTodoListBinding
 import com.example.android_todo.di.Injectable
+import com.example.android_todo.extension.navigateTo
 import javax.inject.Inject
 
 class TodoListFragment : Fragment(), Injectable {
@@ -32,12 +34,23 @@ class TodoListFragment : Fragment(), Injectable {
         with(binding.todoList) {
             layoutManager = LinearLayoutManager(context)
             adapter = TodoListAdapter { todo ->
-                val action = TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(todo)
-                findNavController().navigate(action)
+                navigateTo(TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(todo))
             }
         }
 
-        (binding.todoList.adapter as TodoListAdapter).data = viewModel.getTodoList()
+        viewModel.getTodoList()
+        viewModel.todoList.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Result.Success -> {
+                    (binding.todoList.adapter as TodoListAdapter).data = result.value
+                }
+                is Result.Failed -> {}
+            }
+        }
+
+        binding.floatingBtn.setOnClickListener {
+            navigateTo(TodoListFragmentDirections.actionTodoListFragmentToTodoEditFragment())
+        }
 
         return binding.root
     }
