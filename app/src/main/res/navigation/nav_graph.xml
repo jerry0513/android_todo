@@ -11,21 +11,6 @@
         android:label="fragment_todo_list"
         tools:layout="@layout/fragment_todo_list">
         <action
-            android:id="@+id/showTodoDetailFragment"
-            app:destination="@id/todoDetailFragment" />
-        <action
-            android:id="@+id/showTodoEditFragment"
-            app:destination="@id/todoEditFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/todoDetailFragment"
-        android:name="com.example.android_todo.ui.todoDetail.TodoDetailFragment"
-        android:label="TodoDetailFragment"
-        tools:layout="@layout/fragment_todo_detail">
-        <argument
-            android:name="todo"
-            app:argType="com.example.android_todo.data.TodoEntity" />
-        <action
             android:id="@+id/showTodoEditFragment"
             app:destination="@id/todoEditFragment" />
     </fragment>
