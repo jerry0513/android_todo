@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.android_todo.R
 import com.example.android_todo.data.Result
 import com.example.android_todo.databinding.FragmentTodoEditBinding
@@ -21,11 +22,17 @@ class TodoEditFragment : BaseFragment(), Injectable {
     @Inject
     lateinit var todoEditViewModel: TodoEditViewModel
 
+    private val args: TodoEditFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        args.todo?.let {
+            todoEditViewModel.setTodo(it)
+        }
+
         val binding = DataBindingUtil.inflate<FragmentTodoEditBinding>(
             inflater,
             R.layout.fragment_todo_edit,
@@ -61,7 +68,7 @@ class TodoEditFragment : BaseFragment(), Injectable {
         }
 
         binding.bottomAppBar.setOnMenuItemClickListener {
-            todoEditViewModel.addTodo()
+            todoEditViewModel.editTodo()
             true
         }
 

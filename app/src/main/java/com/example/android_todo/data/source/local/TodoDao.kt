@@ -1,9 +1,6 @@
 package com.example.android_todo.data.source.local
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.android_todo.data.TodoEntity
 
 @Dao
@@ -15,7 +12,7 @@ interface TodoDao {
     @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} WHERE id = :id")
     fun get(id: Int): TodoEntity
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(todoEntity: TodoEntity)
 
     @Delete

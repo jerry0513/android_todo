@@ -3,7 +3,7 @@ package com.example.android_todo.di.module
 import com.example.android_todo.domain.GetTodoDetailUseCase
 import com.example.android_todo.domain.GetTodoListUseCase
 import com.example.android_todo.domain.BaseUseCase
-import com.example.android_todo.domain.AddTodoUseCase
+import com.example.android_todo.domain.EditTodoUseCase
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -21,5 +21,5 @@ abstract class UseCaseModule {
 
     @Singleton
     @Binds
-    abstract fun bindEditTodoUseCase(addTodoUseCase: AddTodoUseCase): BaseUseCase
+    abstract fun bindEditTodoUseCase(editTodoUseCase: EditTodoUseCase): BaseUseCase
 }

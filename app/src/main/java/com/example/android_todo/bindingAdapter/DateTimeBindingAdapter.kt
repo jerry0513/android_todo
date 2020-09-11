@@ -15,7 +15,7 @@ fun TextView.setDateTime(dateTime: Long?) {
 @BindingAdapter("date")
 fun TextView.setDate(date: Long?) {
     date?.let {
-        text = DateTime.fromUnix(date).date
+        text = DateTime.fromUnix(date).dateDayStart
             .format(DateFormat.FORMAT_DATE)
     }
 }

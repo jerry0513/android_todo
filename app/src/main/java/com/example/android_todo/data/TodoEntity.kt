@@ -13,7 +13,7 @@ data class TodoEntity(
     val id: Int? = null,
     var title: String,
     var description: String? = null,
-    var eventTime: Long? = null
+    var eventTime: Long
 ) : Parcelable {
     companion object {
         const val TABLE_NAME = "todo_entity"
