@@ -19,9 +19,9 @@ class TodoListViewModel @Inject constructor(private val getTodoListUseCase: GetT
 
     fun getTodoList() {
         viewModelScope.launch(Dispatchers.IO) {
-            getTodoListUseCase().collect {
-                todoList.postValue(Result.Success(it))
-            }
+            todoList.postValue(Result.Loading)
+            delay(2000)
+            todoList.postValue(Result.Success(getTodoListUseCase()))
         }
     }
 }

@@ -41,10 +41,14 @@ class TodoListFragment : Fragment(), Injectable {
         viewModel.getTodoList()
         viewModel.todoList.observe(viewLifecycleOwner) { result ->
             when (result) {
+                is Result.Loading -> binding.progressBar.show()
                 is Result.Success -> {
+                    binding.progressBar.hide()
                     (binding.todoList.adapter as TodoListAdapter).data = result.value
                 }
-                is Result.Failed -> {}
+                is Result.Failed -> {
+                    binding.progressBar.hide()
+                }
             }
         }
 

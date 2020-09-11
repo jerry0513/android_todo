@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class GetTodoListUseCase @Inject constructor(private val todoRepo: TodoRepository) : BaseUseCase() {
-    suspend operator fun invoke(): Flow<List<TodoEntity>> {
+    suspend operator fun invoke(): List<TodoEntity> {
         return todoRepo.fetchTodoList()
     }
 }

@@ -11,7 +11,7 @@ class TodoRepository @Inject constructor(
     private val todoDao: TodoDao
 ) : BaseRepository() {
 
-    suspend fun fetchTodoList(): Flow<List<TodoEntity>> {
+    suspend fun fetchTodoList(): List<TodoEntity> {
         return todoDao.getAll()
     }
 
