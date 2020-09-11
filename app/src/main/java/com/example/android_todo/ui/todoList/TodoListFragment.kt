@@ -34,7 +34,7 @@ class TodoListFragment : BaseFragment(), Injectable {
         with(binding.todoList) {
             layoutManager = LinearLayoutManager(context)
             adapter = TodoListAdapter { todo ->
-                navigateTo(TodoListFragmentDirections.actionTodoListFragmentToTodoDetailFragment(todo))
+                navigateTo(TodoListFragmentDirections.showTodoEditFragment(todo))
             }
         }
 
@@ -53,7 +53,7 @@ class TodoListFragment : BaseFragment(), Injectable {
         }
 
         binding.floatingBtn.setOnClickListener {
-            navigateTo(TodoListFragmentDirections.actionTodoListFragmentToTodoEditFragment())
+            navigateTo(TodoListFragmentDirections.showTodoEditFragment())
         }
 
         return binding.root

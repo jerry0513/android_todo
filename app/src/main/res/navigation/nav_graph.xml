@@ -11,14 +11,10 @@
         android:label="fragment_todo_list"
         tools:layout="@layout/fragment_todo_list">
         <action
-            android:id="@+id/action_todoListFragment_to_todoDetailFragment"
-            app:destination="@id/todoDetailFragment" >
-            <argument
-                android:name="todo"
-                app:argType="com.example.android_todo.data.TodoEntity" />
-        </action>
+            android:id="@+id/showTodoDetailFragment"
+            app:destination="@id/todoDetailFragment" />
         <action
-            android:id="@+id/action_todoListFragment_to_todoEditFragment"
+            android:id="@+id/showTodoEditFragment"
             app:destination="@id/todoEditFragment" />
     </fragment>
     <fragment
@@ -30,12 +26,18 @@
             android:name="todo"
             app:argType="com.example.android_todo.data.TodoEntity" />
         <action
-            android:id="@+id/action_todoDetailFragment_to_todoEditFragment"
+            android:id="@+id/showTodoEditFragment"
             app:destination="@id/todoEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/todoEditFragment"
         android:name="com.example.android_todo.ui.todoEdit.TodoEditFragment"
         android:label="TodoEditFragment"
-        tools:layout="@layout/fragment_todo_edit"/>
+        tools:layout="@layout/fragment_todo_edit">
+        <argument
+            android:name="todo"
+            app:argType="com.example.android_todo.data.TodoEntity"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </fragment>
 </navigation>
