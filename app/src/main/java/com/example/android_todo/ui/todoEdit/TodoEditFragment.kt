@@ -5,19 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.ContentLoadingProgressBar
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.example.android_todo.R
 import com.example.android_todo.data.Result
 import com.example.android_todo.databinding.FragmentTodoEditBinding
 import com.example.android_todo.di.Injectable
+import com.example.android_todo.ui.BaseFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import javax.inject.Inject
 
-class TodoEditFragment : Fragment(), Injectable {
+class TodoEditFragment : BaseFragment(), Injectable {
 
     @Inject
     lateinit var todoEditViewModel: TodoEditViewModel
@@ -68,13 +67,13 @@ class TodoEditFragment : Fragment(), Injectable {
 
         todoEditViewModel.status.observe(viewLifecycleOwner) {
             when (it) {
-                is Result.Loading -> binding.progressBar.show()
+                is Result.Loading -> showProgressBar()
                 is Result.Success -> {
-                    binding.progressBar.hide()
+                    hideProgressBar()
                     findNavController().popBackStack()
                 }
                 is Result.Failed -> {
-                    binding.progressBar.hide()
+                    hideProgressBar()
                 }
             }
         }

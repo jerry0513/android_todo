@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.android_todo.R
@@ -13,9 +12,10 @@ import com.example.android_todo.data.Result
 import com.example.android_todo.databinding.FragmentTodoListBinding
 import com.example.android_todo.di.Injectable
 import com.example.android_todo.extension.navigateTo
+import com.example.android_todo.ui.BaseFragment
 import javax.inject.Inject
 
-class TodoListFragment : Fragment(), Injectable {
+class TodoListFragment : BaseFragment(), Injectable {
 
     @Inject
     lateinit var viewModel: TodoListViewModel
@@ -41,13 +41,13 @@ class TodoListFragment : Fragment(), Injectable {
         viewModel.getTodoList()
         viewModel.todoList.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is Result.Loading -> binding.progressBar.show()
+                is Result.Loading -> showProgressBar()
                 is Result.Success -> {
-                    binding.progressBar.hide()
+                    hideProgressBar()
                     (binding.todoList.adapter as TodoListAdapter).data = result.value
                 }
                 is Result.Failed -> {
-                    binding.progressBar.hide()
+                    hideProgressBar()
                 }
             }
         }

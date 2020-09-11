@@ -5,15 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
 import com.example.android_todo.R
 import com.example.android_todo.databinding.FragmentTodoDetailBinding
 import com.example.android_todo.di.Injectable
+import com.example.android_todo.ui.BaseFragment
 import javax.inject.Inject
 
-class TodoDetailFragment : Fragment(), Injectable {
+class TodoDetailFragment : BaseFragment(), Injectable {
 
     private val args: TodoDetailFragmentArgs by navArgs()
 
