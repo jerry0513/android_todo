@@ -1,10 +1,9 @@
 package com.example.android_todo.ui.todoEdit
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.android_todo.data.Result
 import com.example.android_todo.data.TodoEntity
+import com.example.android_todo.domain.DeleteTodoUseCase
 import com.example.android_todo.domain.EditTodoUseCase
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.minutes
@@ -13,10 +12,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TodoEditViewModel @Inject constructor(private val editTodoUseCase: EditTodoUseCase) :
-    ViewModel() {
+class TodoEditViewModel @Inject constructor(
+    private val editTodoUseCase: EditTodoUseCase,
+    private val deleteTodoUseCase: DeleteTodoUseCase
+) : ViewModel() {
 
-    private var id: Int? = null
+    val id = MutableLiveData<Int>(null)
+    val enabledDelete: LiveData<Boolean> = Transformations.map(id) { it != null }
+
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
 
@@ -35,22 +38,38 @@ class TodoEditViewModel @Inject constructor(private val editTodoUseCase: EditTod
             status.postValue(Result.Loading)
             delay(2000)
 
-
             val dateTime = DateTime.fromUnix(date.value!!) + time.value!!.minutes
             val params = TodoEntity(
-                id = id,
+                id = id.value,
                 title = title.value!!,
                 description = description.value,
                 eventTime = dateTime.unixMillisLong
             )
-            editTodoUseCase(params)
+            try {
+                editTodoUseCase(params)
+                status.postValue(Result.Success(""))
+            } catch (e: Exception) {
+                status.postValue(Result.Failed("$e"))
+            }
+        }
+    }
 
-            status.postValue(Result.Success(""))
+    fun deleteTodo() {
+        viewModelScope.launch(Dispatchers.IO) {
+            status.postValue(Result.Loading)
+            delay(2000)
+
+            try {
+                deleteTodoUseCase.invoke(id.value!!)
+                status.postValue(Result.Success(""))
+            } catch (e: Exception) {
+                status.postValue(Result.Failed("$e"))
+            }
         }
     }
 
     fun setTodo(todo: TodoEntity) {
-        id = todo.id
+        id.value = todo.id
         title.value = todo.title
         description.value = todo.description
 

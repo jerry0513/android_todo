@@ -1,7 +1,8 @@
 package com.example.android_todo.di.module
 
-import com.example.android_todo.domain.GetTodoListUseCase
+import com.example.android_todo.domain.GetTodoUseCase
 import com.example.android_todo.domain.BaseUseCase
+import com.example.android_todo.domain.DeleteTodoUseCase
 import com.example.android_todo.domain.EditTodoUseCase
 import dagger.Binds
 import dagger.Module
@@ -12,9 +13,13 @@ abstract class UseCaseModule {
 
     @Singleton
     @Binds
-    abstract fun bindGetTodoListUseCase(getTodoListUseCase: GetTodoListUseCase): BaseUseCase
+    abstract fun bindGetTodoListUseCase(getTodoUseCase: GetTodoUseCase): BaseUseCase
 
     @Singleton
     @Binds
     abstract fun bindEditTodoUseCase(editTodoUseCase: EditTodoUseCase): BaseUseCase
+
+    @Singleton
+    @Binds
+    abstract fun bindDeleteTodoUseCase(deleteTodoUseCase: DeleteTodoUseCase): BaseUseCase
 }
