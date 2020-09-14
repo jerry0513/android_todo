@@ -38,16 +38,18 @@ class TodoEditViewModel @Inject constructor(
             status.postValue(Result.Loading)
             delay(2000)
 
-            val dateTime = DateTime.fromUnix(date.value!!) + time.value!!.minutes
-            val params = TodoEntity(
-                id = id.value,
-                title = title.value!!,
-                description = description.value,
-                eventTime = dateTime.unixMillisLong
-            )
             try {
+                validateInput()
+
+                val dateTime = DateTime.fromUnix(date.value!!) + time.value!!.minutes
+                val params = TodoEntity(
+                    id = id.value,
+                    title = title.value!!,
+                    description = description.value,
+                    eventTime = dateTime.unixMillisLong
+                )
                 editTodoUseCase(params)
-                status.postValue(Result.Success(""))
+                status.postValue(Result.Success())
             } catch (e: Exception) {
                 status.postValue(Result.Failed("$e"))
             }
@@ -61,10 +63,16 @@ class TodoEditViewModel @Inject constructor(
 
             try {
                 deleteTodoUseCase.invoke(id.value!!)
-                status.postValue(Result.Success(""))
+                status.postValue(Result.Success())
             } catch (e: Exception) {
                 status.postValue(Result.Failed("$e"))
             }
+        }
+    }
+
+    private fun validateInput() {
+        if (title.value.isNullOrEmpty()) {
+            throw NullPointerException("please fill in the title")
         }
     }
 

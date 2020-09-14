@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,10 +45,11 @@ class TodoListFragment : BaseFragment(), Injectable {
                 is Result.Loading -> showProgressBar()
                 is Result.Success -> {
                     hideProgressBar()
-                    (binding.todoList.adapter as TodoListAdapter).data = result.value
+                    (binding.todoList.adapter as TodoListAdapter).data = result.value!!
                 }
                 is Result.Failed -> {
                     hideProgressBar()
+                    Toast.makeText(context, result.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
