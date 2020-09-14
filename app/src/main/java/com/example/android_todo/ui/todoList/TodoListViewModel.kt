@@ -8,7 +8,6 @@ import com.example.android_todo.data.TodoEntity
 import com.example.android_todo.domain.GetTodoListUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

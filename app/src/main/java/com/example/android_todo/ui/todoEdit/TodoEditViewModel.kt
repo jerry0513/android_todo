@@ -20,10 +20,10 @@ class TodoEditViewModel @Inject constructor(private val editTodoUseCase: EditTod
     val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
 
-    /** unix */
-    val date = MutableLiveData(DateTime.nowUnixLong())
+    /** unix unit */
+    val date = MutableLiveData(DateTime.now().startOfDay.unixMillisLong)
 
-    /** minute */
+    /** minute unit*/
     val time = MutableLiveData(DateTime.now().run {
         hours * 60 + minutes
     })
@@ -34,6 +34,7 @@ class TodoEditViewModel @Inject constructor(private val editTodoUseCase: EditTod
         viewModelScope.launch(Dispatchers.IO) {
             status.postValue(Result.Loading)
             delay(2000)
+
 
             val dateTime = DateTime.fromUnix(date.value!!) + time.value!!.minutes
             val params = TodoEntity(
@@ -54,7 +55,7 @@ class TodoEditViewModel @Inject constructor(private val editTodoUseCase: EditTod
         description.value = todo.description
 
         val dateTime = DateTime.fromUnix(todo.eventTime)
-        date.value = dateTime.dateDayStart.unixMillisLong
+        date.value = dateTime.startOfDay.unixMillisLong
         time.value = dateTime.hours * 60 + dateTime.minutes
     }
 }

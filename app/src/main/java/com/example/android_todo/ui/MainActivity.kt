@@ -3,7 +3,6 @@ package com.example.android_todo.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ContentLoadingProgressBar
-import androidx.fragment.app.Fragment
 import com.example.android_todo.R
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
