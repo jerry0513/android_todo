@@ -4,7 +4,7 @@ import com.example.android_todo.data.TodoEntity
 import com.example.android_todo.data.source.TodoRepository
 import javax.inject.Inject
 
-class GetTodoUseCase @Inject constructor(private val todoRepo: TodoRepository) : BaseUseCase() {
+class GetTodoListUseCase @Inject constructor(private val todoRepo: TodoRepository) : BaseUseCase() {
     suspend operator fun invoke(): List<TodoEntity> {
         return todoRepo.fetchTodoList()
     }
