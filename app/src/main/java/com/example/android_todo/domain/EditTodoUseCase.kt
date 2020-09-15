@@ -7,7 +7,5 @@ import javax.inject.Inject
 class EditTodoUseCase @Inject constructor(private val todoRepository: TodoRepository) :
     BaseUseCase() {
 
-    suspend operator fun invoke(params: TodoEntity) {
-        todoRepository.insertTodo(params)
-    }
+    suspend operator fun invoke(params: TodoEntity) = todoRepository.insertTodo(params)
 }

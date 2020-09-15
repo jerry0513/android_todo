@@ -5,16 +5,22 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.android_todo.data.TodoEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Dao
-interface TodoDao {
+abstract class TodoDao {
 
     @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} ORDER BY eventTime DESC")
-    suspend fun getAll(): List<TodoEntity>
+    abstract suspend fun getAll(): List<TodoEntity>
+
+    @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} WHERE title LIKE '%' || :title || '%' ORDER BY eventTime DESC")
+    abstract fun search(title: String): Flow<List<TodoEntity>>
+    fun searchDistinctUntilChanged(title: String) = search(title).distinctUntilChanged()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(todoEntity: TodoEntity)
+    abstract suspend fun insert(todoEntity: TodoEntity)
 
     @Query("DELETE FROM ${TodoEntity.TABLE_NAME} WHERE id = :id")
-    suspend fun delete(id: Int)
+    abstract suspend fun delete(id: Int)
 }

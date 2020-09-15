@@ -7,7 +7,6 @@ import com.example.android_todo.domain.DeleteTodoUseCase
 import com.example.android_todo.domain.EditTodoUseCase
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.minutes
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,7 +33,7 @@ class TodoEditViewModel @Inject constructor(
     val status = MutableLiveData<Result<String>>()
 
     fun editTodo() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             status.postValue(Result.Loading)
             delay(2000)
 
@@ -57,12 +56,12 @@ class TodoEditViewModel @Inject constructor(
     }
 
     fun deleteTodo() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             status.postValue(Result.Loading)
             delay(2000)
 
             try {
-                deleteTodoUseCase.invoke(id.value!!)
+                deleteTodoUseCase(id.value!!)
                 status.postValue(Result.Success())
             } catch (e: Exception) {
                 status.postValue(Result.Failed("$e"))

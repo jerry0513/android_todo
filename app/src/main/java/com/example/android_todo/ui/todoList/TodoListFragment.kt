@@ -2,8 +2,10 @@ package com.example.android_todo.ui.todoList
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
@@ -32,9 +34,35 @@ class TodoListFragment : BaseFragment(), Injectable {
             false
         )
 
+        val searchItem = binding.bottomAppBar.menu.findItem(R.id.search_action).apply {
+            setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                    binding.floatingBtn.hide()
+                    return true
+                }
+
+                override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                    binding.floatingBtn.show()
+                    return true
+                }
+            })
+        }
+        val searchView = (searchItem.actionView as SearchView).apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean = true
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.searchTodoList(newText ?: "")
+                    return true
+                }
+            })
+        }
+
         with(binding.todoList) {
             layoutManager = LinearLayoutManager(context)
             adapter = TodoListAdapter { todo ->
+                searchView.clearFocus()
+                searchItem.collapseActionView()
                 navigateTo(TodoListFragmentDirections.showTodoEditFragment(todo))
             }
         }
