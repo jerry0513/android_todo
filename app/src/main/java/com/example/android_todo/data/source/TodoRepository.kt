@@ -12,10 +12,6 @@ class TodoRepository @Inject constructor(
         return todoDao.getAll()
     }
 
-    suspend fun fetchTodo(id: Int): TodoEntity {
-        return todoDao.get(id)
-    }
-
     suspend fun insertTodo(todoEntity: TodoEntity) {
         todoDao.insert(todoEntity)
     }

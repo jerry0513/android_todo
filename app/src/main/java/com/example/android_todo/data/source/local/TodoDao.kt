@@ -1,16 +1,16 @@
 package com.example.android_todo.data.source.local
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.android_todo.data.TodoEntity
 
 @Dao
 interface TodoDao {
 
-    @Query("SELECT * FROM ${TodoEntity.TABLE_NAME}")
+    @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} ORDER BY eventTime DESC")
     suspend fun getAll(): List<TodoEntity>
-
-    @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} WHERE id = :id")
-    fun get(id: Int): TodoEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(todoEntity: TodoEntity)
