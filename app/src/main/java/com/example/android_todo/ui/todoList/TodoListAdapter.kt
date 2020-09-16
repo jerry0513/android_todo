@@ -3,6 +3,7 @@ package com.example.android_todo.ui.todoList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android_todo.R
 import com.example.android_todo.data.TodoEntity
@@ -13,8 +14,10 @@ class TodoListAdapter(private val onItemClickListener: (TodoEntity) -> Unit) :
 
     var data = listOf<TodoEntity>()
         set(value) {
+            val diffCallback = TodoDiffCallback(field, value)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            diffResult.dispatchUpdatesTo(this)
             field = value
-            notifyDataSetChanged()
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder =
@@ -50,5 +53,29 @@ class TodoListViewHolder(private val binding: ListItemTodoBinding) :
             )
             return TodoListViewHolder(binding)
         }
+    }
+}
+
+class TodoDiffCallback(
+    private val oldList: List<TodoEntity>,
+    private val newList: List<TodoEntity>
+) : DiffUtil.Callback() {
+
+    override fun getOldListSize(): Int = oldList.size
+
+    override fun getNewListSize(): Int = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        oldList[oldItemPosition].title == newList[newItemPosition].title
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val oldItem = oldList[oldItemPosition]
+        val newItem = newList[newItemPosition]
+
+        return oldItem.description == newItem.description && oldItem.eventTime == newItem.eventTime
+    }
+
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+        return super.getChangePayload(oldItemPosition, newItemPosition)
     }
 }
