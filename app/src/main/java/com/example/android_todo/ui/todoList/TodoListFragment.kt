@@ -35,41 +35,40 @@ class TodoListFragment : BaseFragment(), Injectable {
             false
         )
 
-        val searchItem = binding.bottomAppBar.menu.findItem(R.id.search_action).apply {
-            setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
-                    binding.floatingBtn.hide()
-                    return true
-                }
+        val searchMenuItem = binding.bottomAppBar.menu.findItem(R.id.search_action)
+        val searchView = (searchMenuItem.actionView as SearchView)
+        searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                binding.floatingBtn.hide()
+                return true
+            }
 
-                override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
-                    binding.floatingBtn.show()
-                    return true
-                }
-            })
-        }
-        val searchView = (searchItem.actionView as SearchView).apply {
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean = true
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                binding.floatingBtn.show()
+                searchView.clearFocus()
+                return true
+            }
+        })
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = true
 
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    viewModel.searchTodoList(newText ?: "")
-                    return true
-                }
-            })
-        }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                viewModel.searchTodoList(newText ?: "")
+                return true
+            }
+        })
 
         with(binding.todoList) {
             layoutManager = LinearLayoutManager(context)
             adapter = TodoListAdapter { todo ->
                 searchView.clearFocus()
-                searchItem.collapseActionView()
+                searchMenuItem.collapseActionView()
                 navigateTo(TodoListFragmentDirections.showTodoEditFragment(todo))
             }
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     with(binding.floatingBtn) {
-                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING) hide() else show()
+                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING || searchMenuItem.isActionViewExpanded) hide() else show()
                     }
                 }
             })
