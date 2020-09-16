@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android_todo.R
 import com.example.android_todo.data.Result
 import com.example.android_todo.databinding.FragmentTodoListBinding
@@ -65,6 +66,13 @@ class TodoListFragment : BaseFragment(), Injectable {
                 searchItem.collapseActionView()
                 navigateTo(TodoListFragmentDirections.showTodoEditFragment(todo))
             }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    with(binding.floatingBtn) {
+                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING) hide() else show()
+                    }
+                }
+            })
         }
 
         viewModel.getTodoList()

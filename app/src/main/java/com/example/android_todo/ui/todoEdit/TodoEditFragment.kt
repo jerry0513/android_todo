@@ -64,16 +64,17 @@ class TodoEditFragment : BaseFragment(), Injectable {
             ).show()
         }
 
-        binding.bottomAppBar.setNavigationOnClickListener {
-            findNavController().popBackStack()
-        }
-
-        binding.bottomAppBar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.edit_action -> todoEditViewModel.editTodo()
-                R.id.delete_action -> todoEditViewModel.deleteTodo()
+        with(binding.bottomAppBar) {
+            setNavigationOnClickListener {
+                findNavController().popBackStack()
             }
-            true
+            setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.edit_action -> todoEditViewModel.editTodo()
+                    R.id.delete_action -> todoEditViewModel.deleteTodo()
+                }
+                true
+            }
         }
 
         todoEditViewModel.enabledDelete.observe(viewLifecycleOwner) {
