@@ -40,11 +40,13 @@ class TodoListFragment : BaseFragment(), Injectable {
         searchMenuItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 binding.floatingBtn.hide()
+                searchView.isIconified = false
                 return true
             }
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 binding.floatingBtn.show()
+                searchView.setQuery("", false)
                 searchView.clearFocus()
                 return true
             }
@@ -68,7 +70,8 @@ class TodoListFragment : BaseFragment(), Injectable {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                     with(binding.floatingBtn) {
-                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING || searchMenuItem.isActionViewExpanded) hide() else show()
+                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING
+                            || searchMenuItem.isActionViewExpanded) hide() else show()
                     }
                 }
             })
