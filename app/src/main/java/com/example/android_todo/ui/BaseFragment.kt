@@ -1,6 +1,8 @@
 package com.example.android_todo.ui
 
+import android.content.Context
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
@@ -16,8 +18,17 @@ abstract class BaseFragment : Fragment() {
         (activity as MainActivity).progressBar.hide()
     }
 
+    private fun hideKeyboard() {
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        requireActivity().currentFocus?.windowToken?.let {
+            imm.hideSoftInputFromWindow(it, 0)
+        }
+    }
+
     override fun onDestroyView() {
         hideProgressBar()
+        hideKeyboard()
         super.onDestroyView()
     }
 }

@@ -2,10 +2,9 @@ package com.example.android_todo.ui.todoList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android_todo.R
+import com.example.android_todo.bindingAdapter.setDateTime
 import com.example.android_todo.data.TodoEntity
 import com.example.android_todo.databinding.ListItemTodoBinding
 
@@ -29,28 +28,24 @@ class TodoListAdapter(private val onItemClickListener: (TodoEntity) -> Unit) :
         holder.bind(data[position], onItemClickListener)
 }
 
-class TodoListViewHolder(private val binding: ListItemTodoBinding) :
+class TodoListViewHolder(val binding: ListItemTodoBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: TodoEntity, onItemClickListener: (TodoEntity) -> Unit) {
+    inline fun bind(item: TodoEntity, crossinline onItemClickListener: (TodoEntity) -> Unit) {
         with(binding) {
-            todo = item
+            title.text = item.title
+            description.text = item.description
+            eventTime.setDateTime(item.eventTime)
             root.setOnClickListener {
                 onItemClickListener.invoke(item)
             }
-            executePendingBindings()
         }
     }
 
     companion object {
         fun create(parent: ViewGroup): TodoListViewHolder {
             val inflater = LayoutInflater.from(parent.context)
-            val binding = DataBindingUtil.inflate<ListItemTodoBinding>(
-                inflater,
-                R.layout.list_item_todo,
-                parent,
-                false
-            )
+            val binding = ListItemTodoBinding.inflate(inflater, parent, false)
             return TodoListViewHolder(binding)
         }
     }
@@ -73,9 +68,5 @@ class TodoDiffCallback(
         val newItem = newList[newItemPosition]
 
         return oldItem.description == newItem.description && oldItem.eventTime == newItem.eventTime
-    }
-
-    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
-        return super.getChangePayload(oldItemPosition, newItemPosition)
     }
 }

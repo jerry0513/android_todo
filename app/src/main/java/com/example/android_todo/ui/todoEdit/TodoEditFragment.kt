@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.android_todo.R
+import com.example.android_todo.bindingAdapter.setDate
+import com.example.android_todo.bindingAdapter.setTime
 import com.example.android_todo.data.Result
 import com.example.android_todo.databinding.FragmentTodoEditBinding
 import com.example.android_todo.di.Injectable
 import com.example.android_todo.ui.BaseFragment
 import com.google.android.material.datepicker.MaterialDatePicker
+import org.threeten.bp.*
 import javax.inject.Inject
 
 class TodoEditFragment : BaseFragment(), Injectable {
@@ -30,18 +33,20 @@ class TodoEditFragment : BaseFragment(), Injectable {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        args.todo?.let {
-            todoEditViewModel.setTodo(it)
+        val binding = FragmentTodoEditBinding.inflate(inflater)
+
+        args.todo?.let { todo ->
+            todoEditViewModel.setTodo(todo)
+            binding.title.setText(todo.title)
+            binding.description.setText(todo.description)
         }
 
-        val binding = DataBindingUtil.inflate<FragmentTodoEditBinding>(
-            inflater,
-            R.layout.fragment_todo_edit,
-            container,
-            false
-        ).apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = todoEditViewModel
+        binding.title.addTextChangedListener {
+            todoEditViewModel.title.value = "$it"
+        }
+
+        binding.description.addTextChangedListener {
+            todoEditViewModel.description.value = "$it"
         }
 
         binding.date.setOnClickListener {
@@ -49,7 +54,10 @@ class TodoEditFragment : BaseFragment(), Injectable {
                 .datePicker()
                 .build().apply {
                     addOnPositiveButtonClickListener {
-                        todoEditViewModel.date.value = it
+                        todoEditViewModel.date.value = LocalDateTime.ofInstant(
+                            Instant.ofEpochMilli(it),
+                            ZoneId.systemDefault()
+                        ).toLocalDate()
                     }
                 }.show(parentFragmentManager, "date")
         }
@@ -58,7 +66,7 @@ class TodoEditFragment : BaseFragment(), Injectable {
             TimePickerDialog(
                 context,
                 { _, h, m ->
-                    todoEditViewModel.time.value = h * 60 + m
+                    todoEditViewModel.time.value = LocalTime.of(h, m)
                 },
                 10, 10, true
             ).show()
@@ -75,6 +83,11 @@ class TodoEditFragment : BaseFragment(), Injectable {
                 }
                 true
             }
+        }
+
+        todoEditViewModel.dateTime.observe(viewLifecycleOwner) {
+            binding.date.setDate(it)
+            binding.time.setTime(it)
         }
 
         todoEditViewModel.enabledDelete.observe(viewLifecycleOwner) {

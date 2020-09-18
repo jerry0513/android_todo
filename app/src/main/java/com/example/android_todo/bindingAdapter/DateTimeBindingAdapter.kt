@@ -1,31 +1,23 @@
 package com.example.android_todo.bindingAdapter
 
 import android.widget.TextView
-import androidx.databinding.BindingAdapter
-import com.example.android_todo.R
-import com.soywiz.klock.DateFormat
-import com.soywiz.klock.DateTime
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
 
-@BindingAdapter("dateTime")
-fun TextView.setDateTime(dateTime: Long?) {
+fun TextView.setDateTime(dateTime: LocalDateTime?) {
     dateTime?.let {
-        text = DateTime.fromUnix(it).format("yyyy-MM-dd HH:mm")
+        text = it.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
     }
 }
 
-@BindingAdapter("date")
-fun TextView.setDate(date: Long?) {
+fun TextView.setDate(date: LocalDateTime?) {
     date?.let {
-        text = DateTime.fromUnix(it).dateDayStart
-            .format(DateFormat.FORMAT_DATE)
+        text = it.format(DateTimeFormatter.ISO_LOCAL_DATE)
     }
 }
 
-@BindingAdapter("time")
-fun TextView.setTime(time: Int?) {
+fun TextView.setTime(time: LocalDateTime?) {
     time?.let {
-        val h = it / 60
-        val m = it % 60
-        text = resources.getString(R.string.time_format, h, m)
+        text = it.format(DateTimeFormatter.ofPattern("HH:mm"))
     }
 }

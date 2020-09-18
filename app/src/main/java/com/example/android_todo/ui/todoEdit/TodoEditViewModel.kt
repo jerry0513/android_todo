@@ -5,10 +5,11 @@ import com.example.android_todo.data.Result
 import com.example.android_todo.data.TodoEntity
 import com.example.android_todo.domain.DeleteTodoUseCase
 import com.example.android_todo.domain.EditTodoUseCase
-import com.soywiz.klock.DateTime
-import com.soywiz.klock.minutes
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.LocalTime
 import javax.inject.Inject
 
 class TodoEditViewModel @Inject constructor(
@@ -19,16 +20,19 @@ class TodoEditViewModel @Inject constructor(
     val id = MutableLiveData<Int>(null)
     val enabledDelete: LiveData<Boolean> = Transformations.map(id) { it != null }
 
-    val title = MutableLiveData<String>()
-    val description = MutableLiveData<String>()
+    val title = MutableLiveData<String>(null)
+    val description = MutableLiveData<String>(null)
 
-    /** unix unit */
-    val date = MutableLiveData(DateTime.now().startOfDay.unixMillisLong)
-
-    /** minute unit*/
-    val time = MutableLiveData(DateTime.now().run {
-        hours * 60 + minutes
-    })
+    val date = MutableLiveData(LocalDate.now())
+    val time = MutableLiveData(LocalTime.now())
+    val dateTime = MediatorLiveData<LocalDateTime>().apply {
+        addSource(date) { date ->
+            value = date.atTime(time.value!!.hour, time.value!!.minute)
+        }
+        addSource(time) { time ->
+            value = date.value!!.atTime(time.hour, time.minute)
+        }
+    }
 
     val status = MutableLiveData<Result<String>>()
 
@@ -40,12 +44,11 @@ class TodoEditViewModel @Inject constructor(
             try {
                 validateInput()
 
-                val dateTime = DateTime.fromUnix(date.value!!) + time.value!!.minutes
                 val params = TodoEntity(
                     id = id.value,
                     title = title.value!!,
                     description = description.value,
-                    eventTime = dateTime.unixMillisLong
+                    eventTime = dateTime.value!!
                 )
                 editTodoUseCase(params)
                 status.postValue(Result.Success())
@@ -70,18 +73,15 @@ class TodoEditViewModel @Inject constructor(
     }
 
     private fun validateInput() {
-        if (title.value.isNullOrEmpty()) {
+        if (title.value.isNullOrEmpty())
             throw NullPointerException("please fill in the title")
-        }
     }
 
     fun setTodo(todo: TodoEntity) {
         id.value = todo.id
         title.value = todo.title
         description.value = todo.description
-
-        val dateTime = DateTime.fromUnix(todo.eventTime)
-        date.value = dateTime.startOfDay.unixMillisLong
-        time.value = dateTime.hours * 60 + dateTime.minutes
+        date.value = todo.eventTime.toLocalDate()
+        time.value = todo.eventTime.toLocalTime()
     }
 }

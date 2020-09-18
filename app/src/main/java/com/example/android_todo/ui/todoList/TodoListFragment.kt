@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +16,7 @@ import com.example.android_todo.databinding.FragmentTodoListBinding
 import com.example.android_todo.di.Injectable
 import com.example.android_todo.extension.navigateTo
 import com.example.android_todo.ui.BaseFragment
+import com.example.android_todo.ui.widget.TodoItemDecoration
 import javax.inject.Inject
 
 class TodoListFragment : BaseFragment(), Injectable {
@@ -28,12 +28,7 @@ class TodoListFragment : BaseFragment(), Injectable {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentTodoListBinding>(
-            inflater,
-            R.layout.fragment_todo_list,
-            container,
-            false
-        )
+        val binding = FragmentTodoListBinding.inflate(layoutInflater)
 
         val searchMenuItem = binding.bottomAppBar.menu.findItem(R.id.search_action)
         val searchView = (searchMenuItem.actionView as SearchView)
@@ -75,6 +70,7 @@ class TodoListFragment : BaseFragment(), Injectable {
                     }
                 }
             })
+            addItemDecoration(TodoItemDecoration())
         }
 
         viewModel.getTodoList()
