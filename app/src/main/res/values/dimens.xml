@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="list_item_margin_vertical">8dp</dimen>
-    <dimen name="list_item_margin_horizontal">10dp</dimen>
-    <dimen name="list_item_padding">8dp</dimen>
+    <dimen name="layout_gutter">8dp</dimen>
+    <dimen name="input_textsize">24sp</dimen>
 </resources>

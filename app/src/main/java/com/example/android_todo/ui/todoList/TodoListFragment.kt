@@ -64,10 +64,10 @@ class TodoListFragment : BaseFragment(), Injectable {
             }
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                    with(binding.floatingBtn) {
-                        if (newState == RecyclerView.SCROLL_STATE_DRAGGING
-                            || searchMenuItem.isActionViewExpanded) hide() else show()
-                    }
+                    if (newState == RecyclerView.SCROLL_STATE_DRAGGING || searchMenuItem.isActionViewExpanded)
+                        binding.floatingBtn.hide()
+                    else
+                        binding.floatingBtn.show()
                 }
             })
             addItemDecoration(TodoItemDecoration())

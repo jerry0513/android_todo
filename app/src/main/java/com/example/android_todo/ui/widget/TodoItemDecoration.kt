@@ -14,10 +14,10 @@ class TodoItemDecoration : RecyclerView.ItemDecoration() {
     ) {
         with(outRect) {
             if (parent.getChildLayoutPosition(view) == 0)
-                top = parent.resources.getDimension(R.dimen.list_item_margin_vertical).toInt()
-            left = parent.resources.getDimension(R.dimen.list_item_margin_horizontal).toInt()
-            right = parent.resources.getDimension(R.dimen.list_item_margin_horizontal).toInt()
-            bottom = parent.resources.getDimension(R.dimen.list_item_margin_vertical).toInt()
+                top = parent.resources.getDimension(R.dimen.layout_gutter).toInt()
+            left = parent.resources.getDimension(R.dimen.layout_gutter).toInt()
+            right = parent.resources.getDimension(R.dimen.layout_gutter).toInt()
+            bottom = parent.resources.getDimension(R.dimen.layout_gutter).toInt()
         }
     }
 }
