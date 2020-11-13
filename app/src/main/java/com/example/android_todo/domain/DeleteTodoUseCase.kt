@@ -6,5 +6,5 @@ import javax.inject.Inject
 class DeleteTodoUseCase @Inject constructor(private val todoRepository: TodoRepository) :
     BaseUseCase() {
 
-    suspend operator fun invoke(id: Int) = todoRepository.deleteTod(id)
+    suspend operator fun invoke(id: Int) = todoRepository.deleteTodo(id)
 }
