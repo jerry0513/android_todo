@@ -9,8 +9,6 @@ class TodoRepository @Inject constructor(
     private val todoDao: TodoDao
 ) : BaseRepository() {
 
-    suspend fun fetchTodoList(): List<TodoEntity> = todoDao.getAll()
-
     fun searchTodoList(title: String): Flow<List<TodoEntity>> =
         todoDao.searchDistinctUntilChanged(title)
 

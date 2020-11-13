@@ -10,10 +10,6 @@ abstract class UseCaseModule {
 
     @Singleton
     @Binds
-    abstract fun bindGetTodoListUseCase(getTodoListUseCase: GetTodoListUseCase): BaseUseCase
-
-    @Singleton
-    @Binds
     abstract fun bindSearchTodoListUseCase(searchTodoListUseCase: SearchTodoListUseCase): BaseUseCase
 
     @Singleton

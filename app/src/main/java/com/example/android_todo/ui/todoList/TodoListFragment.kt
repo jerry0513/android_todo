@@ -73,7 +73,7 @@ class TodoListFragment : BaseFragment(), Injectable {
             addItemDecoration(TodoItemDecoration())
         }
 
-        viewModel.getTodoList()
+        viewModel.searchTodoList("")
         viewModel.todoList.observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Loading -> showProgressBar()

@@ -11,9 +11,6 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 @Dao
 abstract class TodoDao {
 
-    @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} ORDER BY eventTime DESC")
-    abstract suspend fun getAll(): List<TodoEntity>
-
     @Query("SELECT * FROM ${TodoEntity.TABLE_NAME} WHERE title LIKE '%' || :title || '%' ORDER BY eventTime DESC")
     abstract fun search(title: String): Flow<List<TodoEntity>>
     fun searchDistinctUntilChanged(title: String) = search(title).distinctUntilChanged()
