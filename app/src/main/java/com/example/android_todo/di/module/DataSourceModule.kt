@@ -8,9 +8,10 @@ import com.example.android_todo.data.source.local.AppDataBase
 import com.example.android_todo.data.source.local.TodoDao
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
-@Module
+@Module(includes = [DispatcherModule::class])
 class DataSourceModule {
 
     @Singleton
@@ -25,9 +26,9 @@ class DataSourceModule {
 
     @Singleton
     @Provides
-    fun providesTodoDao(appDatabase: AppDataBase): TodoDao = appDatabase.todoDao()
+    fun provideTodoDao(appDatabase: AppDataBase): TodoDao = appDatabase.todoDao()
 
     @Singleton
     @Provides
-    fun provideTodoRepository(todoDao: TodoDao): BaseRepository = TodoRepository(todoDao)
+    fun provideTodoRepository(@IoDispatcher ioDispatcher: CoroutineDispatcher, todoDao: TodoDao): BaseRepository = TodoRepository(ioDispatcher, todoDao)
 }
