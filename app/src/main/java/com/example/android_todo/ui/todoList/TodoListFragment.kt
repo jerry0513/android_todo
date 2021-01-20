@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,12 +23,13 @@ import javax.inject.Inject
 class TodoListFragment : BaseFragment(), Injectable {
 
     @Inject
-    lateinit var viewModel: TodoListViewModel
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val viewModel = ViewModelProvider(this, viewModelFactory)[TodoListViewModel::class.java]
         val binding = FragmentTodoListBinding.inflate(layoutInflater)
 
         val searchMenuItem = binding.bottomAppBar.menu.findItem(R.id.search_action)
