@@ -12,14 +12,13 @@ import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.android_todo.R
-import com.example.android_todo.bindingAdapter.setDate
-import com.example.android_todo.bindingAdapter.setTime
 import com.example.android_todo.data.Result
 import com.example.android_todo.databinding.FragmentTodoEditBinding
 import com.example.android_todo.di.Injectable
 import com.example.android_todo.ui.BaseFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import org.threeten.bp.*
+import org.threeten.bp.format.DateTimeFormatter
 import javax.inject.Inject
 
 class TodoEditFragment : BaseFragment(), Injectable {
@@ -88,8 +87,8 @@ class TodoEditFragment : BaseFragment(), Injectable {
         }
 
         viewModel.dateTime.observe(viewLifecycleOwner) {
-            binding.date.setDate(it)
-            binding.time.setTime(it)
+            binding.date.text = it.format(DateTimeFormatter.ISO_LOCAL_DATE)
+            binding.time.text = it.format(DateTimeFormatter.ofPattern("HH:mm"))
         }
 
         viewModel.enabledDelete.observe(viewLifecycleOwner) {

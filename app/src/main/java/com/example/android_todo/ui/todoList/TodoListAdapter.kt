@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android_todo.bindingAdapter.setDateTime
 import com.example.android_todo.data.TodoEntity
 import com.example.android_todo.databinding.ListItemTodoBinding
+import org.threeten.bp.format.DateTimeFormatter
 
 class TodoListAdapter(private val onItemClickListener: (TodoEntity) -> Unit) :
     RecyclerView.Adapter<TodoListViewHolder>() {
@@ -35,7 +35,7 @@ class TodoListViewHolder(val binding: ListItemTodoBinding) :
         with(binding) {
             title.text = item.title
             description.text = item.description
-            eventTime.setDateTime(item.eventTime)
+            eventTime.text = item.eventTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
             root.setOnClickListener {
                 onItemClickListener.invoke(item)
             }
